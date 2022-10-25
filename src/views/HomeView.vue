@@ -12,46 +12,102 @@
         v-if="viewLeft === 'explore'"
         :class="viewLeft === 'bookTour' ? 'animate__fadeOut' : ' '"
       >
-      <button class="btn-flat _contact right col s7 hide-on-large-only" @click="_nextView">
+      <div class="col s12">
+        <button class="btn-flat _contact right col s6 hide-on-large-only" @click="_nextView">
           <span class="right amber-text text-lighten-5">Contact</span>
         </button>
+      </div>
         
         <h3 class="no-top-margin amber-text text-lighten-5">
           Dauphin Bio-Cultural Tour
         </h3>
 
-        <button class="btn-flat bttn hide-on-med-and-down" @click="_nextView">
+        <button class="btn-flat bttn" @click="_nextView">
           <span class="left amber-text text-lighten-5">explore</span>
-          <i class="material-icons right amber-text text-lighten-5 hide-on-med-and-down">east</i>
-        </button>
-
-        <button class="btn-flat bttn hide-on-large-only" @click="_nextView">
-          <span class="amber-text text-lighten-5">explore</span>
-        </button>
-
-        <button class="btn-flat bttn hide-on-large-only" @click="_nextView">
-          <span class="amber-text text-lighten-5">Book Tour</span>
+          <i class="material-icons right amber-text text-lighten-5">east</i>
         </button>
       </div>
 
       <div
         class="info animate__animated animate__slideInLeft"
-        v-if="viewLeft === 'bookTour'"
+        v-if="viewLeft === 'bookTour' || viewLeft === 'bookMobile'"
       >
-        <button class="btn-flat right bttn_close" @click="_nextView">
+        <button class="btn-flat right bttn_close no-padding" @click="_nextView">
           <i class="material-icons purple-text">close</i>
         </button>
 
-        <button @click="_nextView" class="btn-flat bttn_bt purple-text">
+        <button @click="_nextView" class="btn-flat bttn_bt purple-text hide-on-med-and-down">
           Book Tour
+        </button>
+
+        <button @click="bookTourMobile" class="btn-flat bttn_bt purple-text" v-if="viewLeft === 'bookTour'">
+          Book Tour
+        </button>
+
+        <button class="btn-flat left bttn_close no-padding" @click="bookTourMobile" v-if="viewLeft === 'bookMobile'">
+          <i class="material-icons purple-text">west</i>
         </button>
 
         <br />
         <br />
         <br />
 
-        <h3 class="no-top-margin purple-text">Dauphin Bio-Cultural Tour</h3>
-        <p>
+        <h3 class="no-top-margin purple-text heading">Dauphin Bio-Cultural Tour</h3>
+
+        <div class="book_mobile right col s12 no-padding" v-if="viewLeft === 'bookMobile'">
+          <form class="animate__animated animate__fadeIn">
+            <h1 class="purple-text no-margin">Book Tour</h1> 
+            <input
+              v-model="submit.name"
+              type="text"
+              class="input"
+              id="name"
+              name="Name"
+              placeholder="Name"
+            />
+            <input
+              v-model="submit.numberOfPersons"
+              type="text"
+              class="input"
+              id="noPersons"
+              name="Number of Persons"
+              placeholder="Number of Persons"
+            />
+            <input
+              v-model="submit.date"
+              type="text"
+              class="input"
+              id="date"
+              name="Date"
+              placeholder="Date"
+            />
+            <input
+              v-model="submit.email"
+              type="text"
+              class="input"
+              id="email"
+              name="Email"
+              placeholder="E-mail"
+            />
+            <input
+              v-model="submit.contactNumber"
+              type="text"
+              class="input"
+              id="contactNumber"
+              name="Contact Number"
+              placeholder="Contact Number"
+            />
+          </form>
+          <button
+            class="btn-flat purple-text bttn bttn-form col s12"
+            type="submit"
+            name="action"
+          >
+            Submit
+          </button>
+        </div>
+
+        <p v-if="viewLeft === 'bookTour'">
           Dauphin is recognized as one of Saint Lucia's premiere archaeological
           heritage sites, with its iconic Amerindian petrogliph, stone bowls and
           mysterious unique cascade looking, monolith, elongated pillar-like
@@ -60,7 +116,7 @@
           masonry attached to the rock cliff.
         </p>
 
-        <p>
+        <p v-if="viewLeft === 'bookTour'">
           The area had been neglected, underutilized, vandalized and is now
           vulnerable to becoming an endangered heritage site. Generally, Dauphin
           remains understudied geologically and archaeologically. It has not
@@ -69,7 +125,7 @@
           community both socially and economically.
         </p>
 
-        <p>The tour takes you on a journey thorugh the community.</p>
+        <p v-if="viewLeft === 'bookTour'">The tour takes you on a journey thorugh the community.</p>
       </div>
     </div>
 
@@ -195,6 +251,14 @@ export default {
       }
     },
 
+    bookTourMobile() {
+      if (this.viewLeft === "bookTour") {
+        this.viewLeft = "bookMobile"
+      } else {
+        this.viewLeft = "bookTour"
+      }
+    },
+
     // Toggles the right side content and background when you click (contact) button
     _NextView() {
       if (this.viewRight === "rightView") {
@@ -211,13 +275,13 @@ export default {
 <style lang="scss">
 .row {
   height: 100vh;
-  background-image: url(../assets/omar-eagle-clarke-bG_xVUDGiQw-unsplash.jpg);
-  // background-image: url(../assets/Dauphin_St._Lucia.jpg);
+  // background-image: url(../assets/omar-eagle-clarke-bG_xVUDGiQw-unsplash.jpg);
+  background-image: url(../assets/Dauphin_St._Lucia.jpg);
   // background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  // box-shadow: inset 0 0 0 1000px rgba(192, 35, 171, 0.281);
-  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 0 1000px rgba(192, 35, 171, 0.281);
+  // box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
   // padding: 100px;
   // @media screen and (max-width: 992px) {
   //   overflow: hidden;
@@ -254,16 +318,21 @@ export default {
       font-weight: 600;
       margin-bottom: 24px;
       @media screen and (max-width: 600px) {
-        font-size: 24px;
+        font-size: 26px;
 }
     }
 
-    .bttn,
-    h3 {
+    .bttn, h3 {
       position: relative;
       top: 60%;
     }
   }
+
+  .heading {
+        @media screen and (max-width:992px) {
+          font-size: 24px;
+        }
+      }
 
   .bttn_bt {
     border: solid 1px var(--primary);
@@ -273,8 +342,9 @@ export default {
       color: white;
     }
   }
-  .bttn {
-      margin-right: 24px;
+
+  .bttn-form {
+      border-color: var(--secondary) !important;
     }
 }
 
@@ -303,21 +373,32 @@ export default {
   }
 }
 
-.bookTour {
+.bookTour, .book_mobile {
   form {
     height: auto;
     padding: 24px !important;
-    background-color: #cbbb86a4;
+    background-color: #cbbb8684;
     margin-bottom: 10px;
   }
-
-  position: relative;
-  top: 15%;
 
   h1 {
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 10px !important;
+  }
+}
+
+.bookTour {
+  position: relative;
+  top: 15%;
+}
+
+.book_mobile {
+  input {
+    color: black;
+    &::placeholder {
+      color: var(--primary);
+    }
   }
 }
 
@@ -363,4 +444,8 @@ input {
 ._contact {
     border-bottom: solid 1px #fff8e1 !important;
   }
+
+  .bttn-form {
+      border-color: var(--secondary) !important;
+    }
 </style>
