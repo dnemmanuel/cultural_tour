@@ -4,7 +4,7 @@
     style="--primary: #880e4f; --secondary: #00000"
   >
     <div
-      class="col l8 m12 s12 box_1 animate__animated animate__fadeIn no-padding"
+      class="col l6 m12 s12 box_1 animate__animated animate__fadeIn no-padding"
       :class="viewLeft === 'explore' ? ' ' : 'white animate__slideInLeft'"
     >
       <div
@@ -12,12 +12,15 @@
         v-if="viewLeft === 'explore'"
         :class="viewLeft === 'bookTour' ? 'animate__fadeOut' : ' '"
       >
-      <div class="col s12">
-        <button class="btn-flat _contact right col s6 hide-on-large-only" @click="_nextView">
-          <span class="right amber-text text-lighten-5">Contact</span>
-        </button>
-      </div>
-        
+        <div class="col s12">
+          <button
+            class="btn-flat _contact right col s6 hide-on-large-only"
+            @click="_NextViewContact"
+          >
+            <span class="right amber-text text-lighten-5">Contact</span>
+          </button>
+        </div>
+
         <h3 class="no-top-margin amber-text text-lighten-5">
           Dauphin Bio-Cultural Tour
         </h3>
@@ -30,21 +33,32 @@
 
       <div
         class="info animate__animated animate__slideInLeft"
-        v-if="viewLeft === 'bookTour' || viewLeft === 'bookMobile'"
+        v-if="viewLeft === 'bookTour' || viewLeft === 'bookMobile' || viewLeft === 'contact'"
       >
         <button class="btn-flat right bttn_close no-padding" @click="_nextView">
           <i class="material-icons purple-text">close</i>
         </button>
 
-        <button @click="_nextView" class="btn-flat bttn_bt purple-text hide-on-med-and-down">
+        <button
+          @click="_nextView"
+          class="btn-flat bttn_bt purple-text hide-on-med-and-down"
+        >
           Book Tour
         </button>
 
-        <button @click="bookTourMobile" class="btn-flat bttn_bt purple-text" v-if="viewLeft === 'bookTour'">
+        <button
+          @click="bookTourMobile"
+          class="btn-flat bttn_bt purple-text hide-on-med-and-up"
+          v-if="viewLeft === 'bookTour'"
+        >
           Book Tour
         </button>
 
-        <button class="btn-flat left bttn_close no-padding" @click="bookTourMobile" v-if="viewLeft === 'bookMobile'">
+        <button
+          class="btn-flat left bttn_close no-padding"
+          @click="bookTourMobile"
+          v-if="viewLeft === 'bookMobile'"
+        >
           <i class="material-icons purple-text">west</i>
         </button>
 
@@ -52,11 +66,27 @@
         <br />
         <br />
 
-        <h3 class="no-top-margin purple-text heading">Dauphin Bio-Cultural Tour</h3>
+        <div class="_info" v-if="viewLeft === 'contact'">
 
-        <div class="book_mobile right col s12 no-padding" v-if="viewLeft === 'bookMobile'">
+          <h4 class="no-top-margin purple-text">Laurent Jean-Pierre</h4>
+          <p class="purple-text">Telephone</p>
+          <h5 class="no-top-margin purple-text">+1-758-384-6434</h5>
+          <p class="purple-text">Email</p>
+          <h5 class="no-top-margin purple-text">
+            laurentjean.pierre@gmail.com
+          </h5>
+        </div>
+
+        <h3 class="no-top-margin purple-text heading" v-if="viewLeft === 'bookMobile' || viewLeft === 'bookTour'">
+          Dauphin Bio-Cultural Tour
+        </h3>
+
+        <div
+          class="book_mobile right col s12 no-padding"
+          v-if="viewLeft === 'bookMobile'"
+        >
           <form class="animate__animated animate__fadeIn">
-            <h1 class="purple-text no-margin">Book Tour</h1> 
+            <h1 class="purple-text no-margin">Book Tour</h1>
             <input
               v-model="submit.name"
               type="text"
@@ -125,12 +155,14 @@
           community both socially and economically.
         </p>
 
-        <p v-if="viewLeft === 'bookTour'">The tour takes you on a journey thorugh the community.</p>
+        <p v-if="viewLeft === 'bookTour'">
+          The tour takes you on a journey thorugh the community.
+        </p>
       </div>
     </div>
 
     <div
-      class="col l4 box_2 animate__animated"
+      class="col l6 box_2 animate__animated"
       :class="viewRight === 'rightView' ? ' ' : 'white animate__slideInRight'"
     >
       <div
@@ -143,7 +175,7 @@
         </button>
 
         <div class="bookTour right col s12 no-padding">
-          <form>
+          <form class="col l7 right">
             <h1 class="purple-text no-margin">Book Tour</h1>
             <input
               v-model="submit.name"
@@ -187,7 +219,7 @@
             />
           </form>
           <button
-            class="btn-flat amber-text text-lighten-5 right bttn col l12"
+            class="btn-flat amber-text text-lighten-5 right bttn col l7"
             type="submit"
             name="action"
           >
@@ -241,7 +273,7 @@ export default {
   },
 
   methods: {
-    // Toggles the left side content and background when you click (explore) button
+    // Toggles the left side content and background
     _nextView() {
       if (this.viewLeft === "explore") {
         this.viewLeft = "bookTour";
@@ -253,19 +285,27 @@ export default {
 
     bookTourMobile() {
       if (this.viewLeft === "bookTour") {
-        this.viewLeft = "bookMobile"
+        this.viewLeft = "bookMobile";
       } else {
-        this.viewLeft = "bookTour"
+        this.viewLeft = "bookTour";
       }
     },
 
-    // Toggles the right side content and background when you click (contact) button
+    // Toggles the right side content and background
     _NextView() {
       if (this.viewRight === "rightView") {
         this.viewRight = "contact";
         this.viewLeft = "explore";
       } else {
         this.viewRight = "rightView";
+      }
+    },
+
+    _NextViewContact() {
+      if (this.viewLeft === "explore") {
+        this.viewLeft = "contact";
+      } else {
+        this.viewLeft = "explore";
       }
     },
   },
@@ -308,9 +348,9 @@ export default {
 .box_1 {
   .viewLeft {
     padding: 100px 0 100px 100px;
-    @media screen and (max-width:992px) {
-        padding: 24px;
-      }
+    @media screen and (max-width: 992px) {
+      padding: 24px;
+    }
 
     height: 100%;
 
@@ -319,20 +359,21 @@ export default {
       margin-bottom: 24px;
       @media screen and (max-width: 600px) {
         font-size: 26px;
-}
+      }
     }
 
-    .bttn, h3 {
+    .bttn,
+    h3 {
       position: relative;
       top: 60%;
     }
   }
 
   .heading {
-        @media screen and (max-width:992px) {
-          font-size: 24px;
-        }
-      }
+    @media screen and (max-width: 992px) {
+      font-size: 24px;
+    }
+  }
 
   .bttn_bt {
     border: solid 1px var(--primary);
@@ -344,12 +385,12 @@ export default {
   }
 
   .bttn-form {
-      border-color: var(--secondary) !important;
-    }
+    border-color: var(--secondary) !important;
+  }
 }
 
 .box_2 {
-  @media screen and (max-width:992px) {
+  @media screen and (max-width: 992px) {
     display: none;
   }
   .viewRight {
@@ -357,9 +398,9 @@ export default {
     height: 100%;
     display: inline-block;
 
-    @media screen and (max-width:992px) {
-        padding: 24px;
-      }
+    @media screen and (max-width: 992px) {
+      padding: 24px;
+    }
   }
 
   ._contact .contact {
@@ -373,7 +414,8 @@ export default {
   }
 }
 
-.bookTour, .book_mobile {
+.bookTour,
+.book_mobile {
   form {
     height: auto;
     padding: 24px !important;
@@ -442,10 +484,10 @@ input {
 }
 
 ._contact {
-    border-bottom: solid 1px #fff8e1 !important;
-  }
+  border-bottom: solid 1px #fff8e1 !important;
+}
 
-  .bttn-form {
-      border-color: var(--secondary) !important;
-    }
+.bttn-form {
+  border-color: var(--secondary) !important;
+}
 </style>
